@@ -30,5 +30,36 @@ int main(int argc, char * argv[])
   // TO DO:  
   // PARSE input file to create Abstract Syntax Tree (AST).
   // EXECUTE the AST to run your program.
+
+  emplex::Lexer lexer;
+  std::unordered_map<std::string, float> symbolTable;
+  std::vector<emplex::Token> out_tokens = lexer.Tokenize(in_file);
+  int i = 0;
+  for(auto token: out_tokens)
+  {
+      i++;
+      if (lexer.TokenName(token.id) == "VAR" && symbolTable.count(token.lexeme) == 0)
+      {
+          symbolTable.insert(std::make_pair(token.lexeme, std::numeric_limits<double>::quiet_NaN()));
+      }
+  }
+
+  // Main AST Node
+  ASTNode parent = ASTNode("STATEMENT_BLOCK", "ROOT");
+  int token_id = 0;
+  while (token_id < out_tokens.size())
+  {
+    
+    if (out_tokens[token_id] == emplex::Lexer::ID_VAR)
+    {
+      ASTNode var_branch = ASTNode("VAR", out_tokens[token_id].lexeme);
+      var_branch.AddParent(parent);
+      parent.AddChild(var_branch);
+
+    }
+    token_id++;
+  }
+  //SymbolTable tab = SymbolTable();
+  //parent.Run(tab);
   
 }
