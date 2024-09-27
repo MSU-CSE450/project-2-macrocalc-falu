@@ -42,15 +42,6 @@ int main(int argc, char * argv[])
       {
           symbolTable.insert(std::make_pair(token.lexeme, std::numeric_limits<double>::quiet_NaN()));
       }
-
-      if (lexer.TokenName(token.id) == "UNESCAPED")
-      {
-          std::cout << "ERROR (line " << token.line_id 
-          << "): Non-terminating string literal" << std::endl;
-          return(0);
-      }
-
-
   }
 
   // Main AST Node
